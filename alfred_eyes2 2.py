@@ -158,7 +158,7 @@ def conversation_thread():
         client_tools = ClientTools()
         client_tools.register("increaseVolume", increase_speaker_volume)
         client_tools.register("decreaseVolume", decrease_speaker_volume)
-        client_tools.register("setVolume", set_speaker_volume)
+        client_tools.register("setVolume", set_speaker_volume))
 
         client = ElevenLabs(api_key=API_KEY)
         conversation = Conversation(
