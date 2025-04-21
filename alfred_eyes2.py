@@ -13,7 +13,7 @@ import threading
 from RoboEyesLibrary import eyes, DEFAULT, TIRED, ANGRY, HAPPY, SLEEPY
 from transformers import pipeline
 from elevenlabs.client import ElevenLabs
-from elevenlabs.conversational_ai.conversation import Conversation, ClientTools
+from elevenlabs.conversational_ai.conversation import Conversation, ClientTools, ConversationConfig
 from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInterface
 from queue import Queue
 
@@ -34,7 +34,7 @@ emotion_queue = Queue()
 
 # # api keys, for convenience. Could be put into environment file of user service.
 AGENT_ID = os.environ.get('AGENT_ID', 'YLvH9Grqjw2BJ9XdT15a')  # This is the agent you set in elevenlabs
-API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_10021f5df4f3171d78b3db85d684dd1f2d6aa2e8ff399567')  # This is the API key to Elevenlabs
+API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_0c3b122515480691b3984f3ddaca0f0df10998463670a022')  # This is the API key to Elevenlabs
 PICOVOICE_KEY = os.environ.get('PICOVOICE_API_KEY', 'a+wlRZRRrv/teqlLccd1Uuqo0bt/YGp9AdlChaYNH+j2BC5xGKgySw==')
 WAKE_WORD_PATH = os.environ.get('WAKE_WORD_PATH', 'hey_alfred.ppn')
 WAKE_WORD = "Hey Alfred"
@@ -56,6 +56,14 @@ EMOTION_MAP = {
 current_emotion = DEFAULT  # what Alfred should be displaying after display flip
 running = True
 awake = False  # Sleep state to True when Alfred hears Wake Word "Hey Alfred"
+
+dynamic_vars = {
+    "target": "60"
+}
+
+config = ConversationConfig(
+    dynamic_variables=dynamic_vars
+)
 
 # Pygame setup
 pygame.init()
@@ -176,6 +184,7 @@ def conversation_thread():
         conversation = Conversation(
             client,
             AGENT_ID,
+            config=config,
             requires_auth=bool(API_KEY),
             audio_interface=DefaultAudioInterface(),
             client_tools=client_tools,
