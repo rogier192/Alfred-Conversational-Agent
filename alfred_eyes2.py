@@ -17,12 +17,24 @@ from elevenlabs.conversational_ai.conversation import Conversation, ClientTools
 from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInterface
 from queue import Queue
 
+"""
+Elevenlabs account:
+alfred-social-robot@gmx.com
+Password:
+WeLoveAlfred123!
+
+Email:
+alfred-social-robot@gmx.com
+Password:
+WeLoveAlfred
+"""
+
 # setup a queue
 emotion_queue = Queue()
 
 # # api keys, for convenience. Could be put into environment file of user service.
-AGENT_ID = os.environ.get('AGENT_ID', 'YyQP7lkk3zhwSe9BYnDd')  # This is the agent you set in elevenlabs
-API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_a32095a3c4fc0dcab8ae3f5faada7ec5abee3aa994244fda')  # This is the API key to Elevenlabs
+AGENT_ID = os.environ.get('AGENT_ID', 'YLvH9Grqjw2BJ9XdT15a')  # This is the agent you set in elevenlabs
+API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_10021f5df4f3171d78b3db85d684dd1f2d6aa2e8ff399567')  # This is the API key to Elevenlabs
 PICOVOICE_KEY = os.environ.get('PICOVOICE_API_KEY', 'a+wlRZRRrv/teqlLccd1Uuqo0bt/YGp9AdlChaYNH+j2BC5xGKgySw==')
 WAKE_WORD_PATH = os.environ.get('WAKE_WORD_PATH', 'hey_alfred.ppn')
 WAKE_WORD = "Hey Alfred"
@@ -158,7 +170,7 @@ def conversation_thread():
         client_tools = ClientTools()
         client_tools.register("increaseVolume", increase_speaker_volume)
         client_tools.register("decreaseVolume", decrease_speaker_volume)
-        client_tools.register("setVolume", set_speaker_volume))
+        client_tools.register("setVolume", set_speaker_volume)
 
         client = ElevenLabs(api_key=API_KEY)
         conversation = Conversation(
