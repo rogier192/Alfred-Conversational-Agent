@@ -67,17 +67,17 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Alfred's Eyes")
 
 def increase_speaker_volume():
-    proc = subprocess.Popen('/usr/bin/amixer set Master 10%+', shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen('wpctl set-volume -l 1 52 10%', shell=True, stdout=subprocess.PIPE)
     proc.wait()
 
 
 def decrease_speaker_volume():
-    proc = subprocess.Popen('/usr/bin/amixer set Master 10%-', shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen('wpctl set-volume -l 1 52 10%-', shell=True, stdout=subprocess.PIPE)
     proc.wait()
 
 
 def set_speaker_volume(target):
-    proc = subprocess.Popen('/usr/bin/amixer set Master {target}', shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen('wpctl set-volume -l 1 52 {target}%', shell=True, stdout=subprocess.PIPE)
     proc.wait()
 
 
