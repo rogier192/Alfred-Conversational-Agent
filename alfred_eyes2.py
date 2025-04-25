@@ -13,7 +13,7 @@ import threading
 from RoboEyesLibrary import eyes, DEFAULT, TIRED, ANGRY, HAPPY, SLEEPY
 from transformers import pipeline
 from elevenlabs.client import ElevenLabs
-from elevenlabs.conversational_ai.conversation import Conversation, ClientTools, ConversationConfig
+from elevenlabs.conversational_ai.conversation import Conversation, ClientTools
 from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInterface
 from queue import Queue
 
@@ -57,13 +57,6 @@ current_emotion = DEFAULT  # what Alfred should be displaying after display flip
 running = True
 awake = False  # Sleep state to True when Alfred hears Wake Word "Hey Alfred"
 
-dynamic_vars = {
-    "target": "60"
-}
-
-config = ConversationConfig(
-    dynamic_variables=dynamic_vars
-)
 
 # Pygame setup
 pygame.init()
@@ -184,7 +177,6 @@ def conversation_thread():
         conversation = Conversation(
             client,
             AGENT_ID,
-            config=config,
             requires_auth=bool(API_KEY),
             audio_interface=DefaultAudioInterface(),
             client_tools=client_tools,
