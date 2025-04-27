@@ -16,25 +16,13 @@ from elevenlabs.conversational_ai.conversation import Conversation, ClientTools
 from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInterface
 from queue import Queue
 
-"""
-Elevenlabs account:
-alfred-social-robot@gmx.com
-Password:
-WeLoveAlfred123!
-
-Email:
-alfred-social-robot@gmx.com
-Password:
-WeLoveAlfred
-"""
-
 # setup a queue
 emotion_queue = Queue()
 
 # # api keys, for convenience. Could be put into environment file of user service.
 AGENT_ID = os.environ.get('AGENT_ID', 'YLvH9Grqjw2BJ9XdT15a')  # This is the agent you set in elevenlabs
-API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_0c3b122515480691b3984f3ddaca0f0df10998463670a022')  # This is the API key to Elevenlabs
-PICOVOICE_KEY = os.environ.get('PICOVOICE_API_KEY', 'faTc7Z6O4jsv97+Ve1HJEb9iwxTR+Soos+PMiapgdNE+JylEJMNGqw==')
+API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'FILL IN API KEY HERE')  # This is the API key to Elevenlabs
+PICOVOICE_KEY = os.environ.get('PICOVOICE_API_KEY', 'FILL IN API KEY HERE')
 WAKE_WORD_PATH = os.environ.get('WAKE_WORD_PATH', 'hey_alfred.ppn')
 WAKE_WORD = "Hey Alfred"
 
