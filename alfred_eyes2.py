@@ -35,7 +35,7 @@ emotion_queue = Queue()
 # # api keys, for convenience. Could be put into environment file of user service.
 AGENT_ID = os.environ.get('AGENT_ID', 'YLvH9Grqjw2BJ9XdT15a')  # This is the agent you set in elevenlabs
 API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_0c3b122515480691b3984f3ddaca0f0df10998463670a022')  # This is the API key to Elevenlabs
-PICOVOICE_KEY = os.environ.get('PICOVOICE_API_KEY', 'a+wlRZRRrv/teqlLccd1Uuqo0bt/YGp9AdlChaYNH+j2BC5xGKgySw==')
+PICOVOICE_KEY = os.environ.get('PICOVOICE_API_KEY', 'faTc7Z6O4jsv97+Ve1HJEb9iwxTR+Soos+PMiapgdNE+JylEJMNGqw==')
 WAKE_WORD_PATH = os.environ.get('WAKE_WORD_PATH', 'hey_alfred.ppn')
 WAKE_WORD = "Hey Alfred"
 
@@ -129,7 +129,6 @@ def show_eyes():
 # Start Wake Word engine
 def detect_wake_word():
     global awake
-
     # Uses Picovoice to detect and generate Wake Words
     porcupine = pvporcupine.create(
         access_key=PICOVOICE_KEY,
@@ -145,29 +144,38 @@ def detect_wake_word():
         frames_per_buffer=porcupine.frame_length
     )
 
-    print("🎤 Say 'Hey Alfred' to activate...")
+    try:
+        print("🎤 Say 'Hey Alfred' to activate...")
 
-    # Loops until wake word is said
-    while True:
-        pcm = audio_stream.read(porcupine.frame_length)
-        pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
-        keyword_index = porcupine.process(pcm)
+        # Loops until wake word is said
+        while True:
+            pcm = audio_stream.read(porcupine.frame_length)
+            pcm = struct.unpack_from("h" * porcupine.frame_length, pcm)
+            keyword_index = porcupine.process(pcm)
 
-        if keyword_index >= 0:
-            print("✅ Wake-word detected! Starting Alfred...")
-            awake = True  # wakes up
-            break
+            if keyword_index >= 0:
+                print("✅ Wake-word detected! Starting Alfred...")
+                awake = True  # wakes up
+                break
 
-    audio_stream.close()
-    pa.terminate()
-    porcupine.delete()
+    except Exception as e:
+        print(f"Error in wake word detection: {e}")
+
+    finally:
+        if audio_stream is not None:
+            audio_stream.stop_stream()
+            audio_stream.close()
+        pa.terminate()
+        if porcupine is not None:
+            porcupine.delete()
+
 
 # Start the Elevenlabs conversation
 def conversation_thread():
     global running
-    try:
-        detect_wake_word() # conversation only continues after Wake Word is said
+    detect_wake_word()  # conversation only continues after Wake Word is said
 
+    try:
         client_tools = ClientTools()
         client_tools.register("increaseVolume", increase_speaker_volume)
         client_tools.register("decreaseVolume", decrease_speaker_volume)
@@ -191,7 +199,7 @@ def conversation_thread():
         running = False
 
 
-    # process exceptions to clean output
+# process exceptions to clean output
     except websockets.exceptions.ConnectionClosedOK:
         print("conversation closed websocket")
         time.sleep(0.5)  # give pygame time to shut down
