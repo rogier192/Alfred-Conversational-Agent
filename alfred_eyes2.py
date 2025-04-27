@@ -67,7 +67,7 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Alfred's Eyes")
 
 def increase_speaker_volume():
-    proc = subprocess.Popen('wpctl set-volume -l 1 @DEFAULT_SINK@ 10%', shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen('wpctl set-volume -l 1 @DEFAULT_SINK@ 10%+', shell=True, stdout=subprocess.PIPE)
     proc.wait()
 
 
