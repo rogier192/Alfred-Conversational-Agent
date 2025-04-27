@@ -8,7 +8,6 @@ import websockets.exceptions
 import struct
 import pygame
 import time
-import sounddevice # imported for pulseaudio issues RIP pulseaudio btw, lmao
 import threading
 from RoboEyesLibrary import eyes, DEFAULT, TIRED, ANGRY, HAPPY, SLEEPY
 from transformers import pipeline
