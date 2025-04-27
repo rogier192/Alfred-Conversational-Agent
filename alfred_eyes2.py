@@ -17,12 +17,24 @@ from elevenlabs.conversational_ai.conversation import Conversation, ClientTools
 from elevenlabs.conversational_ai.default_audio_interface import DefaultAudioInterface
 from queue import Queue
 
+"""
+Elevenlabs account:
+alfred-social-robot@gmx.com
+Password:
+WeLoveAlfred123!
+
+Email:
+alfred-social-robot@gmx.com
+Password:
+WeLoveAlfred
+"""
+
 # setup a queue
 emotion_queue = Queue()
 
 # # api keys, for convenience. Could be put into environment file of user service.
-AGENT_ID = os.environ.get('AGENT_ID', 'YyQP7lkk3zhwSe9BYnDd')  # This is the agent you set in elevenlabs
-API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_a32095a3c4fc0dcab8ae3f5faada7ec5abee3aa994244fda')  # This is the API key to Elevenlabs
+AGENT_ID = os.environ.get('AGENT_ID', 'YLvH9Grqjw2BJ9XdT15a')  # This is the agent you set in elevenlabs
+API_KEY = os.environ.get('ELEVENLABS_API_KEY', 'sk_0c3b122515480691b3984f3ddaca0f0df10998463670a022')  # This is the API key to Elevenlabs
 PICOVOICE_KEY = os.environ.get('PICOVOICE_API_KEY', 'a+wlRZRRrv/teqlLccd1Uuqo0bt/YGp9AdlChaYNH+j2BC5xGKgySw==')
 WAKE_WORD_PATH = os.environ.get('WAKE_WORD_PATH', 'hey_alfred.ppn')
 WAKE_WORD = "Hey Alfred"
@@ -45,6 +57,7 @@ current_emotion = DEFAULT  # what Alfred should be displaying after display flip
 running = True
 awake = False  # Sleep state to True when Alfred hears Wake Word "Hey Alfred"
 
+
 # Pygame setup
 pygame.init()
 pygame.display.init()
@@ -54,17 +67,17 @@ clock = pygame.time.Clock()
 pygame.display.set_caption("Alfred's Eyes")
 
 def increase_speaker_volume():
-    proc = subprocess.Popen('/usr/bin/amixer set Master 10%+', shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen('wpctl set-volume -l 1 @DEFAULT_SINK@ 10%+', shell=True, stdout=subprocess.PIPE)
     proc.wait()
 
 
 def decrease_speaker_volume():
-    proc = subprocess.Popen('/usr/bin/amixer set Master 10%-', shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen('wpctl set-volume -l 1 @DEFAULT_SINK@ 10%-', shell=True, stdout=subprocess.PIPE)
     proc.wait()
 
 
 def set_speaker_volume(target):
-    proc = subprocess.Popen('/usr/bin/amixer set Master {target}', shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen('wpctl set-volume -l 1 @DEFAULT_SINK@ {target}%', shell=True, stdout=subprocess.PIPE)
     proc.wait()
 
 
